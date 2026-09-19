@@ -1,1 +1,531 @@
 
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PlundFlund — NHL 26/27</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: #080b10;
+    color: #edf3f7;
+    font-family: Arial, sans-serif;
+}
+
+main {
+    max-width: 1400px;
+    margin: auto;
+    padding: 35px;
+}
+
+header {
+    border-bottom: 1px solid #26313c;
+    padding-bottom: 25px;
+    margin-bottom: 20px;
+}
+
+small {
+    color: #8491a1;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 48px;
+    margin: 5px 0;
+}
+
+.green { color: #4ee1a0; }
+
+p { color: #8491a1; }
+
+.kpis {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.card {
+    background: #10161d;
+    border: 1px solid #26313c;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.kpi span {
+    display: block;
+    color: #8491a1;
+    font-size: 12px;
+}
+
+.kpi strong {
+    font-size: 26px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+}
+
+.wide { grid-column: 1 / -1; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+th {
+    color: #8491a1;
+    text-align: left;
+    font-size: 10px;
+}
+
+td, th {
+    padding: 12px 8px;
+    border-bottom: 1px solid #202832;
+}
+
+input, select {
+    width: 100%;
+    background: #090e13;
+    color: white;
+    border: 1px solid #26313c;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+label {
+    display: block;
+    color: #8491a1;
+    font-size: 12px;
+    margin: 12px 0;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #4ee1a0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.teams {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+}
+
+.team {
+    background: #090e13;
+    border: 1px solid #202832;
+    padding: 10px;
+    border-radius: 9px;
+}
+
+.team b { color: #4ee1a0; }
+
+.team span {
+    display: block;
+    color: #8491a1;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.chips span {
+    background: #090e13;
+    border: 1px solid #26313c;
+    padding: 8px;
+    border-radius: 7px;
+    font-size: 11px;
+}
+
+.good { color: #4ee1a0; }
+.bad { color: #ff6b78; }
+
+@media(max-width:800px) {
+    main { padding: 15px; }
+    .kpis { grid-template-columns: 1fr 1fr; }
+    .grid { grid-template-columns: 1fr; }
+    .wide { grid-column: auto; }
+}
+</style>
+</head>
+
+<body>
+
+<main>
+
+<header>
+<small>NHL 2026/27 · SHARED ANALYTICS</small>
+<h1>PLUND<span class="green">FLUND</span></h1>
+<p>Data → probability → price → decision → review.</p>
+</header>
+
+<section class="kpis">
+
+<div class="card kpi">
+<span>P/L</span>
+<strong id="pnl">0 Kč</strong>
+</div>
+
+<div class="card kpi">
+<span>ROI</span>
+<strong id="roi">0.0 %</strong>
+</div>
+
+<div class="card kpi">
+<span>Hit rate</span>
+<strong id="hit">0.0 %</strong>
+</div>
+
+<div class="card kpi">
+<span>Tracked bets</span>
+<strong id="count">0</strong>
+</div>
+
+</section>
+
+<section class="grid">
+
+<div class="card wide">
+
+<small>BET LOG</small>
+<h2>Naše tikety</h2>
+
+<div style="overflow:auto">
+
+<table>
+
+<thead>
+<tr>
+<th>ZÁPAS</th>
+<th>TIP</th>
+<th>KURZ</th>
+<th>NÁŠ MODEL</th>
+<th>MARKET</th>
+<th>EDGE</th>
+<th>EV</th>
+<th>VKLAD</th>
+<th>VÝSLEDEK</th>
+</tr>
+</thead>
+
+<tbody id="bets"></tbody>
+
+</table>
+
+</div>
+</div>
+
+<div class="card">
+
+<small>NEW POSITION</small>
+<h2>Přidat tip</h2>
+
+<form id="form">
+
+<label>
+Zápas
+<input id="game" placeholder="CAR vs FLA" required>
+</label>
+
+<label>
+Trh
+<select id="market">
+<option>Moneyline</option>
+<option>Puck line</option>
+<option>Over/Under</option>
+<option>Team total</option>
+<option>Shots</option>
+<option>Player prop</option>
+</select>
+</label>
+
+<label>
+Tip
+<input id="pick" placeholder="Carolina ML" required>
+</label>
+
+<div class="row">
+
+<label>
+Kurz
+<input id="odds" type="number" step=".01" value="2.00">
+</label>
+
+<label>
+Vklad Kč
+<input id="stake" type="number" value="500">
+</label>
+
+</div>
+
+<label>
+Naše pravděpodobnost %
+<input id="prob" type="number" step=".1" value="50">
+</label>
+
+<button>ULOŽIT TIP</button>
+
+</form>
+
+</div>
+
+<div class="card">
+
+<small>WATCHLIST</small>
+<h2>Sledované týmy</h2>
+
+<div class="teams" id="teams"></div>
+
+</div>
+
+</section>
+
+<section class="card" style="margin-top:10px">
+
+<small>MODEL ROADMAP</small>
+
+<h2>Co budeme měřit</h2>
+
+<div class="chips" id="chips"></div>
+
+<p>
+v0.1 počítá implied probability, edge a EV.
+Později přidáme automatická NHL data, historické statistiky,
+fair probability a closing line value.
+</p>
+
+</section>
+
+</main>
+
+<script>
+
+const teamData = [
+["CAR","Carolina Hurricanes"],
+["FLA","Florida Panthers"],
+["TOR","Toronto Maple Leafs"],
+["MTL","Montréal Canadiens"],
+["NJD","New Jersey Devils"],
+["CBJ","Columbus Blue Jackets"],
+["COL","Colorado Avalanche"],
+["DAL","Dallas Stars"],
+["EDM","Edmonton Oilers"],
+["VAN","Vancouver Canucks"]
+];
+
+const metrics = [
+"GF / GA",
+"Shots For / Against",
+"Shot share",
+"PP %",
+"PK %",
+"5v5",
+"Home / Away",
+"Last 5 / 10",
+"Goalie SV%",
+"Rest days",
+"Back-to-back",
+"Goals by period",
+"xG",
+"Injuries",
+"Closing odds",
+"CLV"
+];
+
+teams.innerHTML = teamData.map(t =>
+`<div class="team"><b>${t[0]}</b><span>${t[1]}</span></div>`
+).join("");
+
+chips.innerHTML = metrics.map(x =>
+`<span>${x}</span>`
+).join("");
+
+let bets =
+JSON.parse(localStorage.getItem("plundflund-bets") || "[]");
+
+function calculate(b) {
+
+const implied = 100 / b.odds;
+
+const edge = b.prob - implied;
+
+const ev =
+(
+(b.prob / 100) * (b.odds - 1)
+-
+(1 - b.prob / 100)
+) * 100;
+
+let profit = 0;
+
+if (b.result === "WIN")
+profit = b.stake * (b.odds - 1);
+
+if (b.result === "LOSS")
+profit = -b.stake;
+
+return { implied, edge, ev, profit };
+
+}
+
+function save() {
+
+localStorage.setItem(
+"plundflund-bets",
+JSON.stringify(bets)
+);
+
+render();
+
+}
+
+function setResult(index,value) {
+
+bets[index].result = value;
+
+save();
+
+}
+
+function render() {
+
+document.querySelector("#bets").innerHTML =
+bets.map((b,i) => {
+
+const c = calculate(b);
+
+return `
+<tr>
+
+<td><b>${b.game}</b></td>
+
+<td>${b.pick}</td>
+
+<td>${b.odds.toFixed(2)}</td>
+
+<td>${b.prob.toFixed(1)}%</td>
+
+<td>${c.implied.toFixed(1)}%</td>
+
+<td class="${c.edge >= 0 ? "good" : "bad"}">
+${c.edge >= 0 ? "+" : ""}
+${c.edge.toFixed(1)} pp
+</td>
+
+<td class="${c.ev >= 0 ? "good" : "bad"}">
+${c.ev >= 0 ? "+" : ""}
+${c.ev.toFixed(1)}%
+</td>
+
+<td>
+${b.stake.toLocaleString("cs-CZ")} Kč
+</td>
+
+<td>
+
+<select onchange="setResult(${i},this.value)">
+
+<option ${b.result==="OPEN"?"selected":""}>OPEN</option>
+
+<option ${b.result==="WIN"?"selected":""}>WIN</option>
+
+<option ${b.result==="LOSS"?"selected":""}>LOSS</option>
+
+</select>
+
+</td>
+
+</tr>
+`;
+
+}).join("");
+
+const settled =
+bets.filter(b => b.result !== "OPEN");
+
+const totalStake =
+settled.reduce((s,b) => s + b.stake,0);
+
+const profit =
+settled.reduce(
+(s,b) => s + calculate(b).profit,
+0
+);
+
+const wins =
+settled.filter(b => b.result === "WIN").length;
+
+pnl.textContent =
+profit.toFixed(0) + " Kč";
+
+roi.textContent =
+(totalStake ? profit / totalStake * 100 : 0)
+.toFixed(1) + " %";
+
+hit.textContent =
+(settled.length ? wins / settled.length * 100 : 0)
+.toFixed(1) + " %";
+
+count.textContent = bets.length;
+
+}
+
+form.onsubmit = e => {
+
+e.preventDefault();
+
+bets.unshift({
+
+game: game.value,
+
+market: market.value,
+
+pick: pick.value,
+
+odds: +odds.value,
+
+stake: +stake.value,
+
+prob: +prob.value,
+
+result: "OPEN"
+
+});
+
+game.value = "";
+pick.value = "";
+
+save();
+
+};
+
+render();
+
+</script>
+
+</body>
+</html>
