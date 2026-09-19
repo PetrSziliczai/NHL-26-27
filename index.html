@@ -254,10 +254,11 @@ button {
 
 <thead>
 <tr>
+    <th>DATUM</th>
 <th>ZÁPAS</th>
 <th>TIP</th>
 <th>KURZ</th>
-<th>NÁŠ MODEL</th>
+<th>NAŠE PRAVDĚPODOBNOST</th>
 <th>MARKET</th>
 <th>EDGE</th>
 <th>EV</th>
@@ -282,43 +283,47 @@ button {
 
 <label>
 Zápas
-<input id="game" placeholder="CAR vs FLA" required>
+<input id="game" placeholder="Zápas – např. CAR vs FLA" required>
+    <label>
+Datum zápasu
+<input id="gameDate" type="date" required>
+</label>
 </label>
 
 <label>
 Trh
 <select id="market">
-<option>Moneyline</option>
-<option>Puck line</option>
-<option>Over/Under</option>
-<option>Team total</option>
-<option>Shots</option>
-<option>Player prop</option>
+  <option value="Moneyline">Moneyline</option>
+  <option value="Góly">Góly</option>
+  <option value="Střely">Střely</option>
+  <option value="Vyloučení">Vyloučení</option>
+  <option value="Hráči">Hráči</option>
+  <option value="Ostatní">Ostatní</option>
 </select>
 </label>
 
 <label>
 Tip
-<input id="pick" placeholder="Carolina ML" required>
+<input id="pick" placeholder="Např. Matthews over 3.5 střel" required>
 </label>
 
 <div class="row">
 
 <label>
 Kurz
-<input id="odds" type="number" step=".01" value="2.00">
+<input id="odds" type="number" step="0.01" min="1.01" placeholder="Kurz (např. 1.85)" required>
 </label>
 
 <label>
 Vklad Kč
-<input id="stake" type="number" value="500">
+<input id="stake" type="number" min="1" step="1" placeholder="Vklad (Kč)" required>
 </label>
 
 </div>
 
 <label>
 Naše pravděpodobnost %
-<input id="prob" type="number" step=".1" value="50">
+<input id="prob" type="number" min="1" max="99" step="0.1" placeholder="Naše pravděpodobnost (%)" required>
 </label>
 
 <button>ULOŽIT TIP</button>
@@ -567,6 +572,7 @@ async function loadBets() {
 
   bets = data.map(b => ({
     id: b.id,
+      game_date: b.game_date,
     game: b.away_team + " @ " + b.home_team,
     home_team: b.home_team,
     away_team: b.away_team,
@@ -641,7 +647,7 @@ const c = calculate(b);
 
 return `
 <tr>
-
+<td>${b.game_date || "—"}</td>
 <td><b>${b.game}</b></td>
 
 <td>${b.pick}</td>
@@ -736,6 +742,7 @@ form.onsubmit = async e => {
         "Prefer": "return=representation"
       },
       body: JSON.stringify({
+         game_date: gameDate.value,
         away_team: parts[0].trim(),
         home_team: parts[1].trim(),
         market: market.value,
