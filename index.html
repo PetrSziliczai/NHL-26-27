@@ -46,7 +46,7 @@ p { color: #8491a1; }
 
 .kpis {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(5,1fr);
     gap: 10px;
     margin-bottom: 10px;
 }
@@ -136,8 +136,25 @@ button {
     border: 1px solid #202832;
     padding: 10px;
     border-radius: 9px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.team:hover {
+    border-color: #4ee1a0;
+    transform: translateY(-2px);
 }
 
+.team.positive {
+    border-color: #4ee1a0;
+}
+
+.team.negative {
+    border-color: #ff5c5c;
+}
+
+.team.neutral {
+    border-color: #202832;
+}
 .team b { color: #4ee1a0; }
 
 .team span {
@@ -186,10 +203,13 @@ button {
 <section class="kpis">
 
 <div class="card kpi">
-<span>P/L</span>
+<span>Čistý zisk</span>
 <strong id="pnl">0 Kč</strong>
 </div>
-
+<div class="card kpi">
+<span>Vsazeno</span>
+<strong id="staked">0 Kč</strong>
+</div>
 <div class="card kpi">
 <span>ROI</span>
 <strong id="roi">0.0 %</strong>
@@ -299,7 +319,64 @@ Naše pravděpodobnost %
 <h2>Sledované týmy</h2>
 
 <div class="teams" id="teams"></div>
+<div id="teamDetail" style="display:none; margin-top:20px;">
+  <div class="card">
+    <button onclick="closeTeam()" style="float:right;">✕</button>
 
+    <small>TEAM DETAIL</small>
+    <h2 id="teamTitle">Team</h2>
+
+    <h3>Naše sázení</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Sázky</th>
+          <th>W-L</th>
+          <th>Vsazeno</th>
+          <th>Zisk</th>
+          <th>ROI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="teamBets">0</td>
+          <td id="teamWL">0-0</td>
+          <td id="teamStaked">0 Kč</td>
+          <td id="teamProfit">0 Kč</td>
+          <td id="teamROI">0.0 %</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:20px;">Statistiky týmu</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>GP</th>
+          <th>GF</th>
+          <th>GA</th>
+          <th>Shots</th>
+          <th>PP%</th>
+          <th>PK%</th>
+          <th>Last 5</th>
+          <th>Last 10</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 </div>
 
 </section>
@@ -356,14 +433,81 @@ const metrics = [
 "CLV"
 ];
 
-teams.innerHTML = teamData.map(t =>
-`<div class="team"><b>${t[0]}</b><span>${t[1]}</span></div>`
-).join("");
+function renderTeams() {
+  teams.innerHTML = teamData.map(t => {
+
+    const teamBetsData = bets.filter(b =>
+      b.home_team === t[0] || b.away_team === t[0]
+    );
+
+    const profit = teamBetsData.reduce(
+      (sum, b) => sum + calculate(b).profit, 0
+    );
+
+    const status =
+      profit > 0 ? "positive" :
+      profit < 0 ? "negative" :
+      "neutral";
+
+    return `
+      <div class="team ${status}" onclick="openTeam('${t[0]}')">
+        <b>${t[0]}</b>
+        <span>${t[1]}</span>
+      </div>
+    `;
+  }).join("");
+}
 
 chips.innerHTML = metrics.map(x =>
 `<span>${x}</span>`
 ).join("");
+function openTeam(code) {
+  const team = teamData.find(t => t[0] === code);
 
+  teamTitle.textContent = team[1] + " (" + team[0] + ")";
+  teamDetail.style.display = "block";
+
+  const teamBetsData = bets.filter(b =>
+    b.home_team === code || b.away_team === code
+  );
+
+  const settled = teamBetsData.filter(b =>
+    b.result === "WIN" || b.result === "LOSS"
+  );
+
+  const wins = settled.filter(b => b.result === "WIN").length;
+  const losses = settled.filter(b => b.result === "LOSS").length;
+
+  const totalStaked = teamBetsData.reduce(
+    (sum, b) => sum + Number(b.stake || 0), 0
+  );
+
+  const profit = settled.reduce(
+    (sum, b) => sum + calculate(b).profit, 0
+  );
+
+  const settledStake = settled.reduce(
+    (sum, b) => sum + Number(b.stake || 0), 0
+  );
+
+  const roi = settledStake
+    ? profit / settledStake * 100
+    : 0;
+
+  teamBets.textContent = teamBetsData.length;
+  teamWL.textContent = wins + "-" + losses;
+  teamStaked.textContent = totalStaked.toFixed(0) + " Kč";
+  teamProfit.textContent = profit.toFixed(0) + " Kč";
+  teamROI.textContent = roi.toFixed(1) + " %";
+
+  teamDetail.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+function closeTeam() {
+  teamDetail.style.display = "none";
+}
 const SUPABASE_URL = "https://kectonvwgbsegkucxjei.supabase.co";
 const SUPABASE_KEY = "sb_publishable_a9HDKC2Syl4x3WekSxFJNg_cYg2soDF";
 
@@ -453,7 +597,7 @@ async function setResult(index, value) {
 
 
 function render() {
-
+renderTeams();
 
 document.querySelector("#bets").innerHTML =
 bets.map((b,i) => {
@@ -523,7 +667,7 @@ settled.filter(b => b.result === "WIN").length;
 
 pnl.textContent =
 profit.toFixed(0) + " Kč";
-
+staked.textContent = totalStake.toFixed(0) + " Kč";
 roi.textContent =
 (totalStake ? profit / totalStake * 100 : 0)
 .toFixed(1) + " %";
