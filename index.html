@@ -393,15 +393,33 @@ return { implied, edge, ev, profit };
 
 }
 
-function save() {
+async function loadBets() {
+  const response = await fetch(
+    SUPABASE_URL + "/rest/v1/bets?select=*&order=created_at.desc",
+    {
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY
+      }
+    }
+  );
 
-localStorage.setItem(
-"plundflund-bets",
-JSON.stringify(bets)
-);
+  const data = await response.json();
 
-render();
+  bets = data.map(b => ({
+    id: b.id,
+    game: b.away_team + " @ " + b.home_team,
+    home_team: b.home_team,
+    away_team: b.away_team,
+    market: b.market,
+    pick: b.pick,
+    odds: b.odds,
+    stake: b.stake,
+    prob: b.model_probability,
+    result: b.result
+  }));
 
+  render();
 }
 
 localStorage.setItem(
@@ -413,7 +431,26 @@ render();
 
 }
 
-function setResult(index,value) {
+async function setResult(index, value) {
+  const bet = bets[index];
+
+  await fetch(
+    SUPABASE_URL + "/rest/v1/bets?id=eq." + bet.id,
+    {
+      method: "PATCH",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        result: value
+      })
+    }
+  );
+
+  await loadBets();
+}
 
 bets[index].result = value;
 
@@ -504,36 +541,50 @@ count.textContent = bets.length;
 
 }
 
-form.onsubmit = e => {
+form.onsubmit = async e => {
+  e.preventDefault();
 
-e.preventDefault();
+  const parts = game.value.split(/\s+(?:vs\.?|@|-)\s+/i);
 
-bets.unshift({
+  if (parts.length !== 2) {
+    alert("Zápas napiš například: CAR vs FLA");
+    return;
+  }
 
-game: game.value,
+  const response = await fetch(
+    SUPABASE_URL + "/rest/v1/bets",
+    {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=representation"
+      },
+      body: JSON.stringify({
+        away_team: parts[0].trim(),
+        home_team: parts[1].trim(),
+        market: market.value,
+        pick: pick.value,
+        odds: +odds.value,
+        stake: +stake.value,
+        model_probability: +prob.value,
+        result: "OPEN"
+      })
+    }
+  );
 
-market: market.value,
+  if (!response.ok) {
+    alert("Tiket se nepodařilo uložit.");
+    return;
+  }
 
-pick: pick.value,
+  game.value = "";
+  pick.value = "";
 
-odds: +odds.value,
-
-stake: +stake.value,
-
-prob: +prob.value,
-
-result: "OPEN"
-
-});
-
-game.value = "";
-pick.value = "";
-
-save();
-
+  await loadBets();
 };
-
-render();
+loadBets();
 
 </script>
 
