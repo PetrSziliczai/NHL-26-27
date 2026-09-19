@@ -364,9 +364,10 @@ chips.innerHTML = metrics.map(x =>
 `<span>${x}</span>`
 ).join("");
 
-let bets =
-JSON.parse(localStorage.getItem("plundflund-bets") || "[]");
+const SUPABASE_URL = "https://kectonvwgbsegkucxjei.supabase.co";
+const SUPABASE_KEY = "sb_publishable_a9HDKC2Syl4x3WekSxFJNg_cYg2soDF";
 
+let bets = [];
 function calculate(b) {
 
 const implied = 100 / b.odds;
