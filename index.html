@@ -130,7 +130,21 @@ button {
     grid-template-columns: 1fr 1fr;
     gap: 7px;
 }
+.delete-btn {
+    background: transparent;
+    border: none;
+    color: #8491a1;
+    font-size: 16px;
+    padding: 4px 6px;
+    margin-left: 8px;
+    cursor: pointer;
+    opacity: 0.7;
+}
 
+.delete-btn:hover {
+    color: #c5ccd6;
+    opacity: 1;
+}
 .team {
     background: #090e13;
     border: 1px solid #202832;
@@ -663,9 +677,7 @@ ${b.stake.toLocaleString("cs-CZ")} Kč
 <option ${b.result==="LOSS"?"selected":""}>LOSS</option>
 
 </select>
-<button onclick="deleteBet(${i})" style="margin-left:8px; cursor:pointer;">
-🗑️
-</button>
+<button onclick="deleteBet(${i})" class="delete-btn" title="Smazat tiket">🗑</button>
 </td>
 
 </tr>
