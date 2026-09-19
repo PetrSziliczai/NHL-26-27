@@ -404,6 +404,15 @@ render();
 
 }
 
+localStorage.setItem(
+"plundflund-bets",
+JSON.stringify(bets)
+);
+
+render();
+
+}
+
 function setResult(index,value) {
 
 bets[index].result = value;
