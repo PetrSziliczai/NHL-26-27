@@ -436,9 +436,10 @@ const metrics = [
 function renderTeams() {
   teams.innerHTML = teamData.map(t => {
 
-    const teamBetsData = bets.filter(b =>
-      b.home_team === t[0] || b.away_team === t[0]
-    );
+   const teamBetsData = bets.filter(b =>
+  b.home_team?.toUpperCase() === t[0].toUpperCase() ||
+  b.away_team?.toUpperCase() === t[0].toUpperCase()
+);
 
     const profit = teamBetsData.reduce(
       (sum, b) => sum + calculate(b).profit, 0
