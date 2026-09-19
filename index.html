@@ -451,12 +451,10 @@ async function setResult(index, value) {
   await loadBets();
 }
 
-bets[index].result = value;
+await loadBets();
+}
 
-save();
-
-
-
+function render() {
 function render() {
 
 document.querySelector("#bets").innerHTML =
