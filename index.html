@@ -700,7 +700,28 @@ const teamData = [
   ["WSH","Washington Capitals"],
   ["WPG","Winnipeg Jets"]
 ];
+let nhlStandings = [];
 
+async function loadNHLData() {
+  try {
+    const response = await fetch(
+      "https://api-web.nhle.com/v1/standings/now"
+    );
+
+    if (!response.ok) {
+      throw new Error("NHL API neodpovědělo správně");
+    }
+
+    const data = await response.json();
+
+    nhlStandings = data.standings || [];
+
+    renderNHLTeams();
+
+  } catch (error) {
+    console.error("Chyba při načítání NHL dat:", error);
+  }
+}
 const watchedTeams = [
   "CAR",
   "FLA",
@@ -958,6 +979,52 @@ function render() {
   renderNHLTeams();
 }
   function renderNHLTeams() {
+
+  const table =
+    document.getElementById("nhlTeamsTable");
+
+  if (!table) {
+    return;
+  }
+
+  table.innerHTML =
+    teamData.map(team => {
+
+      const code = team[0];
+
+      const stats = nhlStandings.find(
+        s => s.teamAbbrev?.default === code
+      );
+
+      return `
+        <tr>
+          <td>
+            <b>${code}</b>
+            <span style="color:#8491a1;">
+              ${team[1]}
+            </span>
+          </td>
+
+          <td>${stats?.gamesPlayed ?? "—"}</td>
+
+          <td>
+            ${stats
+              ? `${stats.wins}-${stats.losses}-${stats.otLosses}`
+              : "—"}
+          </td>
+
+          <td>${stats?.goalFor ?? "—"}</td>
+          <td>${stats?.goalAgainst ?? "—"}</td>
+
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+      `;
+
+    }).join("");
+}
 
   const table =
     document.getElementById("nhlTeamsTable");
@@ -1664,12 +1731,13 @@ document
 /* ============================= */
 /* START APLIKACE */
 /* ============================= */
-
 async function startApp() {
 
   showPage("overview");
 
   await loadBets();
+
+  await loadNHLData();
 
 }
 
