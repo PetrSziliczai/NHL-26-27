@@ -432,7 +432,9 @@ const teamData = [
 ["EDM","Edmonton Oilers"],
 ["VAN","Vancouver Canucks"]
 ];
-
+const playerTeams = {
+  "aho": "CAR"
+};
 const metrics = [
 "GF / GA",
 "Shots For / Against",
@@ -455,10 +457,17 @@ const metrics = [
 function renderTeams() {
   teams.innerHTML = teamData.map(t => {
 
-   const teamBetsData = bets.filter(b =>
-  b.home_team?.toUpperCase() === t[0].toUpperCase() ||
-  b.away_team?.toUpperCase() === t[0].toUpperCase()
-);
+    const teamBetsData = bets.filter(b => {
+      const pickText = (b.pick || "").toLowerCase();
+
+      for (const player in playerTeams) {
+        if (pickText.includes(player)) {
+          return playerTeams[player] === t[0];
+        }
+      }
+
+      return false;
+    });
 
     const profit = teamBetsData.reduce(
       (sum, b) => sum + calculate(b).profit, 0
@@ -477,7 +486,6 @@ function renderTeams() {
     `;
   }).join("");
 }
-
 chips.innerHTML = metrics.map(x =>
 `<span>${x}</span>`
 ).join("");
