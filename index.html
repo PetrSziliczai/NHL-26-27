@@ -246,7 +246,7 @@ font-size: 15px;
 <p>Data → probability → price → decision → review.</p>
 </header>
 
-<section class="kpis">
+<section class="kpis" id="overviewPage">
 
 <div class="card kpi">
 <span>Čistý zisk</span>
@@ -363,7 +363,9 @@ Naše pravděpodobnost %
 </form>
 
 </div>
+</section>
 
+<section id="watchlistPage">
 <div class="card">
 
 <small>WATCHLIST</small>
@@ -591,41 +593,29 @@ function openTeam(code) {
 function closeTeam() {
   teamDetail.style.display = "none";
 }
-   function showPage(page) {
-  if (page === "bets") {
-    betsPage.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+  function showPage(page) {
+  if (page === "overview") {
+    overviewPage.style.display = "";
+    watchlistPage.style.display = "";
+    betsPage.style.display = "none";
   }
-}
-const SUPABASE_URL = "https://kectonvwgbsegkucxjei.supabase.co";
-const SUPABASE_KEY = "sb_publishable_a9HDKC2Syl4x3WekSxFJNg_cYg2soDF";
 
-let bets = [];
-function calculate(b) {
+  if (page === "bets") {
+    overviewPage.style.display = "none";
+    watchlistPage.style.display = "none";
+    betsPage.style.display = "";
+  }
 
-const implied = 100 / b.odds;
+  if (page === "nhl") {
+    overviewPage.style.display = "none";
+    watchlistPage.style.display = "none";
+    betsPage.style.display = "none";
+  }
 
-const edge = b.prob - implied;
-
-const ev =
-(
-(b.prob / 100) * (b.odds - 1)
--
-(1 - b.prob / 100)
-) * 100;
-
-let profit = 0;
-
-if (b.result === "WIN")
-profit = b.stake * (b.odds - 1);
-
-if (b.result === "LOSS")
-profit = -b.stake;
-
-return { implied, edge, ev, profit };
-
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 async function loadBets() {
