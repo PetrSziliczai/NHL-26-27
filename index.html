@@ -201,19 +201,20 @@ button {
     .grid { grid-template-columns: 1fr; }
     .wide { grid-column: auto; }
 }
-    .top-nav {
+   .top-nav {
   display: flex;
-  gap: 8px;
-  margin: 0 auto 16px;
+  gap: 14px;
+  margin: 18px auto 22px;
   max-width: 1200px;
-  padding: 0 20px;
+  padding: 10px 20px;
 }
 
 .top-nav button {
   background: transparent;
   border: none;
   color: #8491a1;
-  padding: 10px 14px;
+  padding: 13px 20px;
+font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   border-radius: 8px;
@@ -234,8 +235,8 @@ button {
 <body>
 <nav class="top-nav">
   <button onclick="showPage('overview')">PŘEHLED</button>
-  <button>SÁZKY</button>
-  <button>NHL DATA</button>
+  <button onclick="showPage('bets')">SÁZKY</button>
+  <button onclick="showPage('nhl')">NHL DATA</button>
 </nav>
 <main>
 
@@ -589,6 +590,9 @@ function openTeam(code) {
 }
 function closeTeam() {
   teamDetail.style.display = "none";
+}
+    function showPage(page) {
+  console.log("Otevírám stránku:", page);
 }
 const SUPABASE_URL = "https://kectonvwgbsegkucxjei.supabase.co";
 const SUPABASE_KEY = "sb_publishable_a9HDKC2Syl4x3WekSxFJNg_cYg2soDF";
