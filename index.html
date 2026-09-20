@@ -731,24 +731,7 @@ async function loadNHLData() {
   }
 }
   try {
-    const response = await fetch(
-      "https://api-web.nhle.com/v1/standings/now"
-    );
-
-    if (!response.ok) {
-      throw new Error("NHL API neodpovědělo správně");
-    }
-
-    const data = await response.json();
-
-    nhlStandings = data.standings || [];
-
-    renderNHLTeams();
-
-  } catch (error) {
-    console.error("Chyba při načítání NHL dat:", error);
-  }
-}
+   
 const watchedTeams = [
   "CAR",
   "FLA",
