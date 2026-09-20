@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -8,200 +7,55 @@
 <title>PlundFlund — NHL 26/27</title>
 
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
-    margin: 0;
-    background: #080b10;
-    color: #edf3f7;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  background: #080b10;
+  color: #edf3f7;
+  font-family: Arial, sans-serif;
 }
 
 main {
-    max-width: 1400px;
-    margin: auto;
-    padding: 35px;
+  max-width: 1400px;
+  margin: auto;
+  padding: 35px;
 }
 
 header {
-    border-bottom: 1px solid #26313c;
-    padding-bottom: 25px;
-    margin-bottom: 20px;
+  border-bottom: 1px solid #26313c;
+  padding-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 small {
-    color: #8491a1;
-    letter-spacing: 2px;
-    font-weight: bold;
+  color: #8491a1;
+  letter-spacing: 2px;
+  font-weight: bold;
 }
 
 h1 {
-    font-size: 48px;
-    margin: 5px 0;
+  font-size: 48px;
+  margin: 5px 0;
 }
 
-.green { color: #4ee1a0; }
-
-p { color: #8491a1; }
-
-.kpis {
-    display: grid;
-    grid-template-columns: repeat(5,1fr);
-    gap: 10px;
-    margin-bottom: 10px;
+h2 {
+  margin-top: 14px;
 }
 
-.card {
-    background: #10161d;
-    border: 1px solid #26313c;
-    border-radius: 14px;
-    padding: 20px;
+.green {
+  color: #4ee1a0;
 }
 
-.kpi span {
-    display: block;
-    color: #8491a1;
-    font-size: 12px;
+p {
+  color: #8491a1;
 }
 
-.kpi strong {
-    font-size: 26px;
-}
+/* NAVIGACE */
 
-.grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 10px;
-}
-
-.wide { grid-column: 1 / -1; }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-th {
-    color: #8491a1;
-    text-align: left;
-    font-size: 10px;
-}
-
-td, th {
-    padding: 12px 8px;
-    border-bottom: 1px solid #202832;
-}
-
-input, select {
-    width: 100%;
-    background: #090e13;
-    color: white;
-    border: 1px solid #26313c;
-    padding: 10px;
-    border-radius: 8px;
-}
-
-label {
-    display: block;
-    color: #8491a1;
-    font-size: 12px;
-    margin: 12px 0;
-}
-
-.row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background: #4ee1a0;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.teams {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 7px;
-}
-.delete-btn {
-    background: transparent;
-    border: none;
-    color: #8491a1;
-    font-size: 16px;
-    padding: 4px 6px;
-    margin-left: 8px;
-    cursor: pointer;
-    opacity: 0.7;
-}
-
-.delete-btn:hover {
-    color: #c5ccd6;
-    opacity: 1;
-}
-.team {
-    background: #090e13;
-    border: 1px solid #202832;
-    padding: 10px;
-    border-radius: 9px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-.team:hover {
-    border-color: #4ee1a0;
-    transform: translateY(-2px);
-}
-
-.team.positive b {
-    color: #4ee1a0;
-}
-
-.team.negative b {
-    color: #ff5c5c;
-}
-
-.team.neutral b {
-    color: inherit;
-}
-.team b { color: #4ee1a0; }
-
-.team span {
-    display: block;
-    color: #8491a1;
-    font-size: 11px;
-    margin-top: 3px;
-}
-
-.chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-}
-
-.chips span {
-    background: #090e13;
-    border: 1px solid #26313c;
-    padding: 8px;
-    border-radius: 7px;
-    font-size: 11px;
-}
-
-.good { color: #4ee1a0; }
-.bad { color: #ff6b78; }
-
-@media(max-width:800px) {
-    main { padding: 15px; }
-    .kpis { grid-template-columns: 1fr 1fr; }
-    .grid { grid-template-columns: 1fr; }
-    .wide { grid-column: auto; }
-}
-   .top-nav {
+.top-nav {
   display: flex;
   gap: 14px;
   margin: 18px auto 22px;
@@ -214,7 +68,7 @@ button {
   border: none;
   color: #8491a1;
   padding: 13px 20px;
-font-size: 15px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   border-radius: 8px;
@@ -225,391 +79,764 @@ font-size: 15px;
   color: #fff;
 }
 
-.top-nav button:first-child {
+.top-nav button.active {
   color: #4ee1a0;
   background: #111820;
+}
+
+/* KARTY */
+
+.card {
+  background: #10161d;
+  border: 1px solid #26313c;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.kpi span {
+  display: block;
+  color: #8491a1;
+  font-size: 12px;
+}
+
+.kpi strong {
+  font-size: 26px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+/* TABULKY */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  color: #8491a1;
+  text-align: left;
+  font-size: 10px;
+}
+
+td,
+th {
+  padding: 12px 8px;
+  border-bottom: 1px solid #202832;
+}
+
+/* FORMULÁŘ */
+
+input,
+select {
+  width: 100%;
+  background: #090e13;
+  color: white;
+  border: 1px solid #26313c;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+label {
+  display: block;
+  color: #8491a1;
+  font-size: 12px;
+  margin: 12px 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #4ee1a0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* SLEDOVANÉ TÝMY */
+
+.teams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.team {
+  background: #090e13;
+  border: 1px solid #202832;
+  padding: 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.team:hover {
+  border-color: #4ee1a0;
+  transform: translateY(-2px);
+}
+
+.team b {
+  color: inherit;
+}
+
+.team.positive b {
+  color: #4ee1a0;
+}
+
+.team.negative b {
+  color: #ff5c5c;
+}
+
+.team.neutral b {
+  color: #edf3f7;
+}
+
+.team span {
+  display: block;
+  color: #8491a1;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+/* OSTATNÍ */
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #8491a1;
+  font-size: 16px;
+  padding: 4px 6px;
+  margin-left: 8px;
+  cursor: pointer;
+  opacity: 0.7;
+  width: auto;
+}
+
+.delete-btn:hover {
+  color: #c5ccd6;
+  opacity: 1;
+}
+
+.close-btn {
+  float: right;
+  width: auto;
+  background: transparent;
+  color: #8491a1;
+  font-size: 18px;
+  padding: 5px 10px;
+}
+
+.close-btn:hover {
+  color: white;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.chips span {
+  background: #090e13;
+  border: 1px solid #26313c;
+  padding: 8px;
+  border-radius: 7px;
+  font-size: 11px;
+}
+
+.good {
+  color: #4ee1a0;
+}
+
+.bad {
+  color: #ff6b78;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+#betsPage.active {
+  display: grid;
+}
+
+#overviewPage.active {
+  display: grid;
+}
+
+.section-space {
+  margin-top: 10px;
+}
+
+/* MOBIL */
+
+@media(max-width:800px) {
+  main {
+    padding: 15px;
+  }
+
+  .kpis {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wide {
+    grid-column: auto;
+  }
+
+  .teams {
+    grid-template-columns: 1fr;
+  }
+
+  .top-nav {
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .top-nav button {
+    padding: 12px 6px;
+    font-size: 12px;
+  }
 }
 </style>
 </head>
 
 <body>
+
 <nav class="top-nav">
-  <button onclick="showPage('overview')">PŘEHLED</button>
-  <button onclick="showPage('bets')">SÁZKY</button>
-  <button onclick="showPage('nhl')">NHL DATA</button>
+  <button id="navOverview" onclick="showPage('overview')">PŘEHLED</button>
+  <button id="navBets" onclick="showPage('bets')">SÁZKY</button>
+  <button id="navNhl" onclick="showPage('nhl')">NHL DATA</button>
 </nav>
+
 <main>
 
 <header>
-<small>NHL 2026/27 · SHARED ANALYTICS</small>
-<h1>PLUND<span class="green">FLUND</span></h1>
-<p>Data → probability → price → decision → review.</p>
+  <small>NHL 2026/27 · SHARED ANALYTICS</small>
+  <h1>PLUND<span class="green">FLUND</span></h1>
+  <p>Data → probability → price → decision → review.</p>
 </header>
 
-<section class="kpis" id="overviewPage">
 
-<div class="card kpi">
-<span>Čistý zisk</span>
-<strong id="pnl">0 Kč</strong>
-</div>
-<div class="card kpi">
-<span>Vsazeno</span>
-<strong id="staked">0 Kč</strong>
-</div>
-<div class="card kpi">
-<span>ROI</span>
-<strong id="roi">0.0 %</strong>
-</div>
+<!-- ===================== -->
+<!-- PŘEHLED -->
+<!-- ===================== -->
 
-<div class="card kpi">
-<span>Hit rate</span>
-<strong id="hit">0.0 %</strong>
-</div>
+<section class="kpis page" id="overviewPage">
 
-<div class="card kpi">
-<span>Tracked bets</span>
-<strong id="count">0</strong>
-</div>
-
-</section>
-
-<section class="grid" id="betsPage">
-
-<div class="card wide">
-
-<small>BET LOG</small>
-<h2>Naše tikety</h2>
-
-<div style="overflow:auto">
-
-<table>
-
-<thead>
-<tr>
-    <th>DATUM</th>
-<th>ZÁPAS</th>
-<th>TIP</th>
-<th>KURZ</th>
-<th>NAŠE PRAVDĚPODOBNOST</th>
-<th>MARKET</th>
-<th>EDGE</th>
-<th>EV</th>
-<th>VKLAD</th>
-<th>VÝSLEDEK</th>
-</tr>
-</thead>
-
-<tbody id="bets"></tbody>
-
-</table>
-
-</div>
-</div>
-
-<div class="card">
-
-<small>NEW POSITION</small>
-<h2>Přidat tip</h2>
-
-<form id="form">
-
-<label>
-Zápas
-<input id="game" placeholder="Zápas – např. CAR vs FLA" required>
-    <label>
-Datum zápasu
-<input id="gameDate" type="date" required>
-</label>
-</label>
-
-<label>
-Trh
-<select id="market">
-  <option value="Moneyline">Moneyline</option>
-  <option value="Góly">Góly</option>
-  <option value="Střely">Střely</option>
-  <option value="Vyloučení">Vyloučení</option>
-  <option value="Hráči">Hráči</option>
-  <option value="Ostatní">Ostatní</option>
-</select>
-</label>
-
-<label>
-Tip
-<input id="pick" placeholder="Např. Matthews over 3.5 střel" required>
-</label>
-
-<div class="row">
-
-<label>
-Kurz
-<input id="odds" type="number" step="0.01" min="1.01" placeholder="Kurz (např. 1.85)" required>
-</label>
-
-<label>
-Vklad Kč
-<input id="stake" type="number" min="1" step="1" placeholder="Vklad (Kč)" required>
-</label>
-
-</div>
-
-<label>
-Naše pravděpodobnost %
-<input id="prob" type="number" min="1" max="99" step="0.1" placeholder="Naše pravděpodobnost (%)" required>
-</label>
-
-<button>ULOŽIT TIP</button>
-
-</form>
-
-</div>
-</section>
-
-<section id="watchlistPage">
-<div class="card">
-
-<small>WATCHLIST</small>
-<h2>Sledované týmy</h2>
-
-<div class="teams" id="teams"></div>
-<div id="teamDetail" style="display:none; margin-top:20px;">
-  <div class="card">
-    <button onclick="closeTeam()" style="float:right;">✕</button>
-
-    <small>TEAM DETAIL</small>
-    <h2 id="teamTitle">Team</h2>
-
-    <h3>Naše sázení</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Sázky</th>
-          <th>W-L</th>
-          <th>Vsazeno</th>
-          <th>Zisk</th>
-          <th>ROI</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td id="teamBets">0</td>
-          <td id="teamWL">0-0</td>
-          <td id="teamStaked">0 Kč</td>
-          <td id="teamProfit">0 Kč</td>
-          <td id="teamROI">0.0 %</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3 style="margin-top:20px;">Statistiky týmu</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>GP</th>
-          <th>GF</th>
-          <th>GA</th>
-          <th>Shots</th>
-          <th>PP%</th>
-          <th>PK%</th>
-          <th>Last 5</th>
-          <th>Last 10</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="card kpi">
+    <span>Čistý zisk</span>
+    <strong id="pnl">0 Kč</strong>
   </div>
-</div>
-</div>
+
+  <div class="card kpi">
+    <span>Vsazeno</span>
+    <strong id="staked">0 Kč</strong>
+  </div>
+
+  <div class="card kpi">
+    <span>ROI</span>
+    <strong id="roi">0.0 %</strong>
+  </div>
+
+  <div class="card kpi">
+    <span>Hit rate</span>
+    <strong id="hit">0.0 %</strong>
+  </div>
+
+  <div class="card kpi">
+    <span>Tracked bets</span>
+    <strong id="count">0</strong>
+  </div>
 
 </section>
 
-<section class="card" style="margin-top:10px">
 
-<small>MODEL ROADMAP</small>
+<section class="page section-space" id="watchlistPage">
 
-<h2>Co budeme měřit</h2>
+  <div class="card">
 
-<div class="chips" id="chips"></div>
+    <small>WATCHLIST</small>
+    <h2>Sledované týmy</h2>
 
-<p>
-v0.1 počítá implied probability, edge a EV.
-Později přidáme automatická NHL data, historické statistiky,
-fair probability a closing line value.
-</p>
+    <div class="teams" id="teams"></div>
+
+    <div id="teamDetail" style="display:none; margin-top:20px;">
+
+      <div class="card">
+
+        <button
+          onclick="closeTeam()"
+          class="close-btn"
+        >
+          ✕
+        </button>
+
+        <small>TEAM DETAIL</small>
+        <h2 id="teamTitle">Team</h2>
+
+        <h3>Naše sázení</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Sázky</th>
+              <th>W-L</th>
+              <th>Vsazeno</th>
+              <th>Zisk</th>
+              <th>ROI</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td id="teamBets">0</td>
+              <td id="teamWL">0-0</td>
+              <td id="teamStaked">0 Kč</td>
+              <td id="teamProfit">0 Kč</td>
+              <td id="teamROI">0.0 %</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin-top:20px;">Statistiky týmu</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>GP</th>
+              <th>GF</th>
+              <th>GA</th>
+              <th>Shots</th>
+              <th>PP%</th>
+              <th>PK%</th>
+              <th>Last 5</th>
+              <th>Last 10</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================== -->
+<!-- SÁZKY -->
+<!-- ===================== -->
+
+<section class="grid page" id="betsPage">
+
+  <div class="card wide">
+
+    <small>BET LOG</small>
+    <h2>Naše tikety</h2>
+
+    <div style="overflow:auto">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>DATUM</th>
+            <th>ZÁPAS</th>
+            <th>TIP</th>
+            <th>KURZ</th>
+            <th>NAŠE PRAVDĚPODOBNOST</th>
+            <th>TRH</th>
+            <th>IMPL. PRAVD.</th>
+            <th>EDGE</th>
+            <th>EV</th>
+            <th>VKLAD</th>
+            <th>VÝSLEDEK</th>
+          </tr>
+        </thead>
+
+        <tbody id="betsTable"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <small>NEW POSITION</small>
+    <h2>Přidat tip</h2>
+
+    <form id="betForm">
+
+      <label>
+        Zápas
+        <input
+          id="game"
+          placeholder="Např. CAR FLA"
+          required
+        >
+      </label>
+
+      <label>
+        Datum zápasu
+        <input
+          id="gameDate"
+          type="date"
+          required
+        >
+      </label>
+
+      <label>
+        Trh
+        <select id="market">
+          <option value="Moneyline">Moneyline</option>
+          <option value="Góly">Góly</option>
+          <option value="Střely">Střely</option>
+          <option value="Vyloučení">Vyloučení</option>
+          <option value="Hráči">Hráči</option>
+          <option value="Ostatní">Ostatní</option>
+        </select>
+      </label>
+
+      <label>
+        Tip
+        <input
+          id="pick"
+          placeholder="Např. Matthews over 3.5 střel"
+          required
+        >
+      </label>
+
+      <div class="row">
+
+        <label>
+          Kurz
+          <input
+            id="odds"
+            type="number"
+            step="0.01"
+            min="1.01"
+            placeholder="Kurz (např. 1.85)"
+            required
+          >
+        </label>
+
+        <label>
+          Vklad Kč
+          <input
+            id="stake"
+            type="number"
+            min="1"
+            step="1"
+            placeholder="Vklad (Kč)"
+            required
+          >
+        </label>
+
+      </div>
+
+      <label>
+        Naše pravděpodobnost %
+        <input
+          id="prob"
+          type="number"
+          min="1"
+          max="99"
+          step="0.1"
+          placeholder="Naše pravděpodobnost (%)"
+          required
+        >
+      </label>
+
+      <button type="submit">
+        ULOŽIT TIP
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+
+<!-- ===================== -->
+<!-- NHL DATA -->
+<!-- ===================== -->
+
+<section class="page" id="nhlPage">
+
+  <div class="card">
+
+    <small>NHL DATA</small>
+    <h2>Co budeme měřit</h2>
+
+    <div class="chips" id="chips"></div>
+
+    <p>
+      Zde postupně přidáme automatická NHL data,
+      statistiky všech 32 týmů, formu, speciální týmy,
+      střely, góly, brankáře, xG a další data.
+    </p>
+
+  </div>
 
 </section>
 
 </main>
 
+
 <script>
 
+/* ============================= */
+/* SUPABASE */
+/* ============================= */
+
+const SUPABASE_URL =
+  "https://kectonvwgbsegkucxjei.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_a9HDKC2Syl4x3WekSxFJNg_cYg2soDF";
+
+
+/* ============================= */
+/* DATA */
+/* ============================= */
+
+let bets = [];
+
 const teamData = [
-["ANA","Anaheim Ducks"],
-["BOS","Boston Bruins"],
-["BUF","Buffalo Sabres"],
-["CGY","Calgary Flames"],
-["CAR","Carolina Hurricanes"],
-["CHI","Chicago Blackhawks"],
-["COL","Colorado Avalanche"],
-["CBJ","Columbus Blue Jackets"],
-["DAL","Dallas Stars"],
-["DET","Detroit Red Wings"],
-["EDM","Edmonton Oilers"],
-["FLA","Florida Panthers"],
-["LAK","Los Angeles Kings"],
-["MIN","Minnesota Wild"],
-["MTL","Montréal Canadiens"],
-["NSH","Nashville Predators"],
-["NJD","New Jersey Devils"],
-["NYI","New York Islanders"],
-["NYR","New York Rangers"],
-["OTT","Ottawa Senators"],
-["PHI","Philadelphia Flyers"],
-["PIT","Pittsburgh Penguins"],
-["SJS","San Jose Sharks"],
-["SEA","Seattle Kraken"],
-["STL","St. Louis Blues"],
-["TBL","Tampa Bay Lightning"],
-["TOR","Toronto Maple Leafs"],
-["UTA","Utah Mammoth"],
-["VAN","Vancouver Canucks"],
-["VGK","Vegas Golden Knights"],
-["WSH","Washington Capitals"],
-["WPG","Winnipeg Jets"]
+  ["ANA","Anaheim Ducks"],
+  ["BOS","Boston Bruins"],
+  ["BUF","Buffalo Sabres"],
+  ["CGY","Calgary Flames"],
+  ["CAR","Carolina Hurricanes"],
+  ["CHI","Chicago Blackhawks"],
+  ["COL","Colorado Avalanche"],
+  ["CBJ","Columbus Blue Jackets"],
+  ["DAL","Dallas Stars"],
+  ["DET","Detroit Red Wings"],
+  ["EDM","Edmonton Oilers"],
+  ["FLA","Florida Panthers"],
+  ["LAK","Los Angeles Kings"],
+  ["MIN","Minnesota Wild"],
+  ["MTL","Montréal Canadiens"],
+  ["NSH","Nashville Predators"],
+  ["NJD","New Jersey Devils"],
+  ["NYI","New York Islanders"],
+  ["NYR","New York Rangers"],
+  ["OTT","Ottawa Senators"],
+  ["PHI","Philadelphia Flyers"],
+  ["PIT","Pittsburgh Penguins"],
+  ["SJS","San Jose Sharks"],
+  ["SEA","Seattle Kraken"],
+  ["STL","St. Louis Blues"],
+  ["TBL","Tampa Bay Lightning"],
+  ["TOR","Toronto Maple Leafs"],
+  ["UTA","Utah Mammoth"],
+  ["VAN","Vancouver Canucks"],
+  ["VGK","Vegas Golden Knights"],
+  ["WSH","Washington Capitals"],
+  ["WPG","Winnipeg Jets"]
 ];
-    const watchedTeams = [
-  "CAR", "FLA", "TOR", "MTL", "NJD",
-  "CBJ", "COL", "DAL", "EDM", "VAN"
+
+const watchedTeams = [
+  "CAR",
+  "FLA",
+  "TOR",
+  "MTL",
+  "NJD",
+  "CBJ",
+  "COL",
+  "DAL",
+  "EDM",
+  "VAN"
 ];
-const playerTeams = {
-  "aho": "CAR"
-};
-    const teamAliases = {
+
+const teamAliases = {
   "MON": "MTL"
 };
 
-const metrics = [
+const playerTeams = {
+  "aho": "CAR"
+};
 
-"GF / GA",
-"Shots For / Against",
-"Shot share",
-"PP %",
-"PK %",
-"5v5",
-"Home / Away",
-"Last 5 / 10",
-"Goalie SV%",
-"Rest days",
-"Back-to-back",
-"Goals by period",
-"xG",
-"Injuries",
-"Closing odds",
-"CLV"
+const metrics = [
+  "GF / GA",
+  "Shots For / Against",
+  "Shot share",
+  "PP %",
+  "PK %",
+  "5v5",
+  "Home / Away",
+  "Last 5 / 10",
+  "Goalie SV%",
+  "Rest days",
+  "Back-to-back",
+  "Goals by period",
+  "xG",
+  "Injuries",
+  "Closing odds",
+  "CLV"
 ];
 
-function renderTeams() {
-  teams.innerHTML = teamData.filter(t => watchedTeams.includes(t[0])).map(t => {
 
-    const teamBetsData = bets.filter(b =>
-  b.home_team === t[0] || b.away_team === t[0]
-);
+/* ============================= */
+/* POMOCNÉ FUNKCE */
+/* ============================= */
 
-    const profit = teamBetsData.reduce(
-      (sum, b) => sum + calculate(b).profit, 0
+function normalizeTeam(code) {
+  const upper = String(code || "")
+    .trim()
+    .toUpperCase();
+
+  return teamAliases[upper] || upper;
+}
+
+
+function calculate(bet) {
+
+  const oddsValue = Number(bet.odds) || 0;
+  const probability = Number(bet.prob) || 0;
+  const stakeValue = Number(bet.stake) || 0;
+
+  const implied =
+    oddsValue > 0
+      ? 100 / oddsValue
+      : 0;
+
+  const edge =
+    probability - implied;
+
+  const ev =
+    oddsValue > 0
+      ? (
+          (probability / 100) * (oddsValue - 1)
+          -
+          (1 - probability / 100)
+        ) * 100
+      : 0;
+
+  let profit = 0;
+
+  if (bet.result === "WIN") {
+    profit =
+      stakeValue * (oddsValue - 1);
+  }
+
+  if (bet.result === "LOSS") {
+    profit = -stakeValue;
+  }
+
+  return {
+    implied,
+    edge,
+    ev,
+    profit
+  };
+}
+
+
+/* ============================= */
+/* NAVIGACE */
+/* ============================= */
+
+function showPage(page) {
+
+  const overviewPage =
+    document.getElementById("overviewPage");
+
+  const watchlistPage =
+    document.getElementById("watchlistPage");
+
+  const betsPage =
+    document.getElementById("betsPage");
+
+  const nhlPage =
+    document.getElementById("nhlPage");
+
+  overviewPage.classList.remove("active");
+  watchlistPage.classList.remove("active");
+  betsPage.classList.remove("active");
+  nhlPage.classList.remove("active");
+
+  document
+    .querySelectorAll(".top-nav button")
+    .forEach(button =>
+      button.classList.remove("active")
     );
 
-    const status =
-      profit > 0 ? "positive" :
-      profit < 0 ? "negative" :
-      "neutral";
-
-    return `
-      <div class="team ${status}" onclick="openTeam('${t[0]}')">
-        <b>${t[0]}</b>
-        <span>${t[1]}</span>
-      </div>
-    `;
-  }).join("");
-}
-chips.innerHTML = metrics.map(x =>
-`<span>${x}</span>`
-).join("");
-function openTeam(code) {
-  const team = teamData.find(t => t[0] === code);
-
-  teamTitle.textContent = team[1] + " (" + team[0] + ")";
-  teamDetail.style.display = "block";
-
-  const teamBetsData = bets.filter(b =>
-    b.home_team === code || b.away_team === code
-  );
-
-  const settled = teamBetsData.filter(b =>
-    b.result === "WIN" || b.result === "LOSS"
-  );
-
-  const wins = settled.filter(b => b.result === "WIN").length;
-  const losses = settled.filter(b => b.result === "LOSS").length;
-
-  const totalStaked = teamBetsData.reduce(
-    (sum, b) => sum + Number(b.stake || 0), 0
-  );
-
-  const profit = settled.reduce(
-    (sum, b) => sum + calculate(b).profit, 0
-  );
-
-  const settledStake = settled.reduce(
-    (sum, b) => sum + Number(b.stake || 0), 0
-  );
-
-  const roi = settledStake
-    ? profit / settledStake * 100
-    : 0;
-
-  teamBets.textContent = teamBetsData.length;
-  teamWL.textContent = wins + "-" + losses;
-  teamStaked.textContent = totalStaked.toFixed(0) + " Kč";
-  teamProfit.textContent = profit.toFixed(0) + " Kč";
-  teamROI.textContent = roi.toFixed(1) + " %";
-    
-  teamDetail.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-}
-function closeTeam() {
-  teamDetail.style.display = "none";
-}
-  function showPage(page) {
   if (page === "overview") {
-    overviewPage.style.display = "";
-    watchlistPage.style.display = "";
-    betsPage.style.display = "none";
+
+    overviewPage.classList.add("active");
+    watchlistPage.classList.add("active");
+
+    document
+      .getElementById("navOverview")
+      .classList.add("active");
   }
 
   if (page === "bets") {
-    overviewPage.style.display = "none";
-    watchlistPage.style.display = "none";
-    betsPage.style.display = "";
+
+    betsPage.classList.add("active");
+
+    document
+      .getElementById("navBets")
+      .classList.add("active");
   }
 
   if (page === "nhl") {
-    overviewPage.style.display = "none";
-    watchlistPage.style.display = "none";
-    betsPage.style.display = "none";
+
+    nhlPage.classList.add("active");
+
+    document
+      .getElementById("navNhl")
+      .classList.add("active");
   }
 
   window.scrollTo({
@@ -617,221 +844,799 @@ function closeTeam() {
     behavior: "smooth"
   });
 }
-let bets = [];
+
+
+/* ============================= */
+/* SUPABASE – NAČTENÍ */
+/* ============================= */
+
 async function loadBets() {
-  const response = await fetch(
-    SUPABASE_URL + "/rest/v1/bets?select=*&order=created_at.desc",
-    {
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + SUPABASE_KEY
+
+  try {
+
+    const response = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/bets?select=*&order=created_at.desc",
+      {
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY
+        }
       }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Supabase HTTP " + response.status
+      );
     }
-  );
 
-  const data = await response.json();
+    const data = await response.json();
 
-  bets = data.map(b => ({
-    id: b.id,
-      game_date: b.game_date,
-    game: b.away_team + " @ " + b.home_team,
-    home_team: b.home_team,
-    away_team: b.away_team,
-    market: b.market,
-    pick: b.pick,
-    odds: b.odds,
-    stake: b.stake,
-    prob: b.model_probability,
-    result: b.result
-  }));
-
-  render();
-}
-
-localStorage.setItem(
-"plundflund-bets",
-JSON.stringify(bets)
-);
-
-render();
-
-
-async function setResult(index, value) {
-  const bet = bets[index];
-
-  await fetch(
-    SUPABASE_URL + "/rest/v1/bets?id=eq." + bet.id,
-    {
-      method: "PATCH",
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + SUPABASE_KEY,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        result: value
-      })
+    if (!Array.isArray(data)) {
+      throw new Error(
+        "Supabase nevrátil seznam sázek."
+      );
     }
-  );
 
-  await loadBets();
-}
-    async function deleteBet(index) {
-  const bet = bets[index];
+    bets = data.map(b => ({
 
-  if (!confirm("Opravdu chceš tento tiket smazat?")) {
-    return;
+      id: b.id,
+
+      game_date:
+        b.game_date,
+
+      game:
+        normalizeTeam(b.away_team) +
+        " @ " +
+        normalizeTeam(b.home_team),
+
+      home_team:
+        normalizeTeam(b.home_team),
+
+      away_team:
+        normalizeTeam(b.away_team),
+
+      market:
+        b.market || "—",
+
+      pick:
+        b.pick || "",
+
+      odds:
+        Number(b.odds) || 0,
+
+      stake:
+        Number(b.stake) || 0,
+
+      prob:
+        Number(b.model_probability) || 0,
+
+      result:
+        b.result || "OPEN"
+
+    }));
+
+    render();
+
+  } catch (error) {
+
+    console.error(
+      "Chyba při načítání sázek:",
+      error
+    );
+
   }
-
-  await fetch(
-    SUPABASE_URL + "/rest/v1/bets?id=eq." + bet.id,
-    {
-      method: "DELETE",
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + SUPABASE_KEY
-      }
-    }
-  );
-
-  await loadBets();
 }
 
+
+/* ============================= */
+/* VYKRESLENÍ */
+/* ============================= */
 
 function render() {
-renderTeams();
 
-document.querySelector("#bets").innerHTML =
-bets.map((b,i) => {
-
-const c = calculate(b);
-
-return `
-<tr>
-<td>${b.game_date || "—"}</td>
-<td><b>${b.game}</b></td>
-
-<td>${b.pick}</td>
-
-<td>${b.odds.toFixed(2)}</td>
-
-<td>${b.prob.toFixed(1)}%</td>
-
-<td>${c.implied.toFixed(1)}%</td>
-
-<td class="${c.edge >= 0 ? "good" : "bad"}">
-${c.edge >= 0 ? "+" : ""}
-${c.edge.toFixed(1)} pp
-</td>
-
-<td class="${c.ev >= 0 ? "good" : "bad"}">
-${c.ev >= 0 ? "+" : ""}
-${c.ev.toFixed(1)}%
-</td>
-
-<td>
-${b.stake.toLocaleString("cs-CZ")} Kč
-</td>
-
-<td>
-
-<select onchange="setResult(${i},this.value)">
-
-<option ${b.result==="OPEN"?"selected":""}>OPEN</option>
-
-<option ${b.result==="WIN"?"selected":""}>WIN</option>
-
-<option ${b.result==="LOSS"?"selected":""}>LOSS</option>
-
-</select>
-<button onclick="deleteBet(${i})" class="delete-btn" title="Smazat tiket">🗑</button>
-</td>
-
-</tr>
-`;
-
-}).join("");
-
-const settled =
-bets.filter(b => b.result !== "OPEN");
-
-const totalStake =
-settled.reduce((s,b) => s + b.stake,0);
-
-const profit =
-settled.reduce(
-(s,b) => s + calculate(b).profit,
-0
-);
-
-const wins =
-settled.filter(b => b.result === "WIN").length;
-
-pnl.textContent =
-profit.toFixed(0) + " Kč";
-staked.textContent = totalStake.toFixed(0) + " Kč";
-roi.textContent =
-(totalStake ? profit / totalStake * 100 : 0)
-.toFixed(1) + " %";
-
-hit.textContent =
-(settled.length ? wins / settled.length * 100 : 0)
-.toFixed(1) + " %";
-
-count.textContent = bets.length;
+  renderBets();
+  renderKPIs();
+  renderTeams();
 
 }
 
-form.onsubmit = async e => {
-  e.preventDefault();
 
- const parts = game.value.trim().split(/\s+(?:vs\.?|@|-)\s+|\s+/i);
+function renderBets() {
 
-  if (parts.length !== 2) {
-    alert("Zápas napiš například: CAR vs FLA");
+  const table =
+    document.getElementById("betsTable");
+
+  table.innerHTML =
+    bets.map((b, i) => {
+
+      const c = calculate(b);
+
+      return `
+        <tr>
+
+          <td>
+            ${b.game_date || "—"}
+          </td>
+
+          <td>
+            <b>${b.game}</b>
+          </td>
+
+          <td>
+            ${b.pick}
+          </td>
+
+          <td>
+            ${b.odds.toFixed(2)}
+          </td>
+
+          <td>
+            ${b.prob.toFixed(1)}%
+          </td>
+
+          <td>
+            ${b.market}
+          </td>
+
+          <td>
+            ${c.implied.toFixed(1)}%
+          </td>
+
+          <td class="${c.edge >= 0 ? "good" : "bad"}">
+            ${c.edge >= 0 ? "+" : ""}
+            ${c.edge.toFixed(1)} pp
+          </td>
+
+          <td class="${c.ev >= 0 ? "good" : "bad"}">
+            ${c.ev >= 0 ? "+" : ""}
+            ${c.ev.toFixed(1)}%
+          </td>
+
+          <td>
+            ${b.stake.toLocaleString("cs-CZ")} Kč
+          </td>
+
+          <td>
+
+            <select
+              onchange="setResult(${i}, this.value)"
+            >
+
+              <option
+                value="OPEN"
+                ${b.result === "OPEN" ? "selected" : ""}
+              >
+                OPEN
+              </option>
+
+              <option
+                value="WIN"
+                ${b.result === "WIN" ? "selected" : ""}
+              >
+                WIN
+              </option>
+
+              <option
+                value="LOSS"
+                ${b.result === "LOSS" ? "selected" : ""}
+              >
+                LOSS
+              </option>
+
+            </select>
+
+            <button
+              onclick="deleteBet(${i})"
+              class="delete-btn"
+              title="Smazat tiket"
+            >
+              🗑
+            </button>
+
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+
+}
+
+
+function renderKPIs() {
+
+  const settled =
+    bets.filter(
+      b =>
+        b.result === "WIN" ||
+        b.result === "LOSS"
+    );
+
+  const settledStake =
+    settled.reduce(
+      (sum, b) =>
+        sum + Number(b.stake || 0),
+      0
+    );
+
+  const allStake =
+    bets.reduce(
+      (sum, b) =>
+        sum + Number(b.stake || 0),
+      0
+    );
+
+  const profit =
+    settled.reduce(
+      (sum, b) =>
+        sum + calculate(b).profit,
+      0
+    );
+
+  const wins =
+    settled.filter(
+      b => b.result === "WIN"
+    ).length;
+
+  document.getElementById("pnl").textContent =
+    profit.toFixed(0) + " Kč";
+
+  document.getElementById("staked").textContent =
+    allStake.toFixed(0) + " Kč";
+
+  document.getElementById("roi").textContent =
+    (
+      settledStake
+        ? profit / settledStake * 100
+        : 0
+    ).toFixed(1) + " %";
+
+  document.getElementById("hit").textContent =
+    (
+      settled.length
+        ? wins / settled.length * 100
+        : 0
+    ).toFixed(1) + " %";
+
+  document.getElementById("count").textContent =
+    bets.length;
+
+}
+
+
+/* ============================= */
+/* SLEDOVANÉ TÝMY */
+/* ============================= */
+
+function renderTeams() {
+
+  const teamsContainer =
+    document.getElementById("teams");
+
+  const watched =
+    teamData.filter(team =>
+      watchedTeams.includes(team[0])
+    );
+
+  teamsContainer.innerHTML =
+    watched.map(team => {
+
+      const code = team[0];
+
+      /*
+        Výsledek týmu počítáme podle všech sázek
+        v zápasech, kterých se daný tým účastnil.
+
+        Např. CAR vs WSH:
+        pokud vsadíme WSH a vyhrajeme,
+        zápas se pozitivně započítá i do
+        naší bilance při zápasech Caroliny.
+      */
+
+      const teamBetsData =
+        bets.filter(b =>
+          b.home_team === code ||
+          b.away_team === code
+        );
+
+      const profit =
+        teamBetsData.reduce(
+          (sum, b) =>
+            sum + calculate(b).profit,
+          0
+        );
+
+      let status = "neutral";
+
+      if (profit > 0) {
+        status = "positive";
+      }
+
+      if (profit < 0) {
+        status = "negative";
+      }
+
+      return `
+        <div
+          class="team ${status}"
+          onclick="openTeam('${code}')"
+        >
+          <b>${code}</b>
+          <span>${team[1]}</span>
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+function openTeam(code) {
+
+  const team =
+    teamData.find(t =>
+      t[0] === code
+    );
+
+  if (!team) {
     return;
   }
 
-  const response = await fetch(
-    SUPABASE_URL + "/rest/v1/bets",
-    {
-      method: "POST",
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + SUPABASE_KEY,
-        "Content-Type": "application/json",
-        "Prefer": "return=representation"
-      },
-      body: JSON.stringify({
-         game_date: gameDate.value,
-       away_team: teamAliases[parts[0].trim().toUpperCase()] || parts[0].trim().toUpperCase(),
-home_team: teamAliases[parts[1].trim().toUpperCase()] || parts[1].trim().toUpperCase(),
-        market: market.value,
-        pick: pick.value,
-        odds: +odds.value,
-        stake: +stake.value,
-        model_probability: +prob.value,
-        result: "OPEN"
-      })
+  const teamBetsData =
+    bets.filter(b =>
+      b.home_team === code ||
+      b.away_team === code
+    );
+
+  const settled =
+    teamBetsData.filter(
+      b =>
+        b.result === "WIN" ||
+        b.result === "LOSS"
+    );
+
+  const wins =
+    settled.filter(
+      b => b.result === "WIN"
+    ).length;
+
+  const losses =
+    settled.filter(
+      b => b.result === "LOSS"
+    ).length;
+
+  const totalStaked =
+    teamBetsData.reduce(
+      (sum, b) =>
+        sum + Number(b.stake || 0),
+      0
+    );
+
+  const settledStake =
+    settled.reduce(
+      (sum, b) =>
+        sum + Number(b.stake || 0),
+      0
+    );
+
+  const profit =
+    settled.reduce(
+      (sum, b) =>
+        sum + calculate(b).profit,
+      0
+    );
+
+  const teamROI =
+    settledStake
+      ? profit / settledStake * 100
+      : 0;
+
+  document
+    .getElementById("teamTitle")
+    .textContent =
+      team[1] + " (" + code + ")";
+
+  document
+    .getElementById("teamBets")
+    .textContent =
+      teamBetsData.length;
+
+  document
+    .getElementById("teamWL")
+    .textContent =
+      wins + "-" + losses;
+
+  document
+    .getElementById("teamStaked")
+    .textContent =
+      totalStaked.toFixed(0) + " Kč";
+
+  document
+    .getElementById("teamProfit")
+    .textContent =
+      profit.toFixed(0) + " Kč";
+
+  document
+    .getElementById("teamROI")
+    .textContent =
+      teamROI.toFixed(1) + " %";
+
+  const detail =
+    document.getElementById("teamDetail");
+
+  detail.style.display = "block";
+
+  detail.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
+
+
+function closeTeam() {
+
+  document
+    .getElementById("teamDetail")
+    .style.display = "none";
+
+}
+
+
+/* ============================= */
+/* ZMĚNA VÝSLEDKU */
+/* ============================= */
+
+async function setResult(index, value) {
+
+  const bet = bets[index];
+
+  if (!bet) {
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/bets?id=eq." +
+      bet.id,
+      {
+        method: "PATCH",
+
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY,
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          result: value
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Supabase HTTP " +
+        response.status
+      );
+    }
+
+    await loadBets();
+
+  } catch (error) {
+
+    console.error(
+      "Chyba při změně výsledku:",
+      error
+    );
+
+    alert(
+      "Výsledek se nepodařilo uložit."
+    );
+
+  }
+}
+
+
+/* ============================= */
+/* SMAZÁNÍ */
+/* ============================= */
+
+async function deleteBet(index) {
+
+  const bet = bets[index];
+
+  if (!bet) {
+    return;
+  }
+
+  if (
+    !confirm(
+      "Opravdu chceš tento tiket smazat?"
+    )
+  ) {
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/bets?id=eq." +
+      bet.id,
+      {
+        method: "DELETE",
+
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Supabase HTTP " +
+        response.status
+      );
+    }
+
+    await loadBets();
+
+  } catch (error) {
+
+    console.error(
+      "Chyba při mazání:",
+      error
+    );
+
+    alert(
+      "Tiket se nepodařilo smazat."
+    );
+
+  }
+}
+
+
+/* ============================= */
+/* NOVÝ TIP */
+/* ============================= */
+
+document
+  .getElementById("betForm")
+  .addEventListener(
+    "submit",
+    async function(e) {
+
+      e.preventDefault();
+
+      const gameInput =
+        document
+          .getElementById("game")
+          .value
+          .trim();
+
+      /*
+        Přijme například:
+
+        CAR FLA
+        CAR vs FLA
+        CAR VS FLA
+        CAR @ FLA
+        CAR - FLA
+      */
+
+      const parts =
+        gameInput
+          .replace(/\s+(?:vs\.?|@|-)\s+/gi, " ")
+          .trim()
+          .split(/\s+/);
+
+      if (parts.length !== 2) {
+
+        alert(
+          "Zápas napiš například: CAR FLA"
+        );
+
+        return;
+      }
+
+      const awayTeam =
+        normalizeTeam(parts[0]);
+
+      const homeTeam =
+        normalizeTeam(parts[1]);
+
+      const validTeams =
+        teamData.map(t => t[0]);
+
+      if (
+        !validTeams.includes(awayTeam) ||
+        !validTeams.includes(homeTeam)
+      ) {
+
+        alert(
+          "Neznámá zkratka týmu."
+        );
+
+        return;
+      }
+
+      if (awayTeam === homeTeam) {
+
+        alert(
+          "Vyber dva různé týmy."
+        );
+
+        return;
+      }
+
+      const gameDate =
+        document.getElementById("gameDate");
+
+      const market =
+        document.getElementById("market");
+
+      const pick =
+        document.getElementById("pick");
+
+      const odds =
+        document.getElementById("odds");
+
+      const stake =
+        document.getElementById("stake");
+
+      const prob =
+        document.getElementById("prob");
+
+      try {
+
+        const response = await fetch(
+          SUPABASE_URL +
+          "/rest/v1/bets",
+          {
+            method: "POST",
+
+            headers: {
+              "apikey": SUPABASE_KEY,
+              "Authorization":
+                "Bearer " + SUPABASE_KEY,
+              "Content-Type":
+                "application/json",
+              "Prefer":
+                "return=representation"
+            },
+
+            body: JSON.stringify({
+
+              game_date:
+                gameDate.value,
+
+              away_team:
+                awayTeam,
+
+              home_team:
+                homeTeam,
+
+              market:
+                market.value,
+
+              pick:
+                pick.value.trim(),
+
+              odds:
+                Number(odds.value),
+
+              stake:
+                Number(stake.value),
+
+              model_probability:
+                Number(prob.value),
+
+              result:
+                "OPEN"
+
+            })
+          }
+        );
+
+        if (!response.ok) {
+
+          const errorText =
+            await response.text();
+
+          console.error(
+            "Supabase insert:",
+            errorText
+          );
+
+          throw new Error(
+            "Supabase HTTP " +
+            response.status
+          );
+        }
+
+        /*
+          Datum necháváme vyplněné,
+          protože často zadáváme více
+          sázek na stejný den.
+        */
+
+        document
+          .getElementById("game")
+          .value = "";
+
+        document
+          .getElementById("pick")
+          .value = "";
+
+        document
+          .getElementById("odds")
+          .value = "";
+
+        document
+          .getElementById("stake")
+          .value = "";
+
+        document
+          .getElementById("prob")
+          .value = "";
+
+        await loadBets();
+
+      } catch (error) {
+
+        console.error(
+          "Chyba při ukládání:",
+          error
+        );
+
+        alert(
+          "Tiket se nepodařilo uložit."
+        );
+
+      }
+
     }
   );
 
-  if (!response.ok) {
-    alert("Tiket se nepodařilo uložit.");
-    return;
-  }
 
-  game.value = "";
-  pick.value = "";
+/* ============================= */
+/* NHL DATA ROADMAP */
+/* ============================= */
 
-  await loadBets();
-};
+document
+  .getElementById("chips")
+  .innerHTML =
+    metrics
+      .map(metric =>
+        `<span>${metric}</span>`
+      )
+      .join("");
+
+
+/* ============================= */
+/* START APLIKACE */
+/* ============================= */
+
 async function startApp() {
-  await loadBets();
+
   showPage("overview");
+
+  await loadBets();
+
 }
 
 startApp();
+
 </script>
 
 </body>
