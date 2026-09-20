@@ -454,6 +454,10 @@ const teamData = [
 ["WSH","Washington Capitals"],
 ["WPG","Winnipeg Jets"]
 ];
+    const watchedTeams = [
+  "CAR", "FLA", "TOR", "MTL", "NJD",
+  "CBJ", "COL", "DAL", "EDM", "VAN"
+];
 const playerTeams = {
   "aho": "CAR"
 };
@@ -482,7 +486,7 @@ const metrics = [
 ];
 
 function renderTeams() {
-  teams.innerHTML = teamData.map(t => {
+  teams.innerHTML = teamData.filter(t => watchedTeams.includes(t[0])).map(t => {
 
     const teamBetsData = bets.filter(b => {
       const pickText = (b.pick || "").toLowerCase();
