@@ -273,7 +273,7 @@ font-size: 15px;
 
 </section>
 
-<section class="grid">
+<section class="grid" id="betsPage">
 
 <div class="card wide">
 
@@ -591,8 +591,13 @@ function openTeam(code) {
 function closeTeam() {
   teamDetail.style.display = "none";
 }
-    function showPage(page) {
-  console.log("Otevírám stránku:", page);
+   function showPage(page) {
+  if (page === "bets") {
+    betsPage.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
 }
 const SUPABASE_URL = "https://kectonvwgbsegkucxjei.supabase.co";
 const SUPABASE_KEY = "sb_publishable_a9HDKC2Syl4x3WekSxFJNg_cYg2soDF";
