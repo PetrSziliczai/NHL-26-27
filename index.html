@@ -201,11 +201,42 @@ button {
     .grid { grid-template-columns: 1fr; }
     .wide { grid-column: auto; }
 }
+    .top-nav {
+  display: flex;
+  gap: 8px;
+  margin: 0 auto 16px;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.top-nav button {
+  background: transparent;
+  border: none;
+  color: #8491a1;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.top-nav button:hover {
+  background: #111820;
+  color: #fff;
+}
+
+.top-nav button:first-child {
+  color: #4ee1a0;
+  background: #111820;
+}
 </style>
 </head>
 
 <body>
-
+<nav class="top-nav">
+  <button>PŘEHLED</button>
+  <button>SÁZKY</button>
+  <button>NHL DATA</button>
+</nav>
 <main>
 
 <header>
