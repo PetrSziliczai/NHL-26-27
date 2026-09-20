@@ -826,8 +826,12 @@ home_team: teamAliases[parts[1].trim().toUpperCase()] || parts[1].trim().toUpper
 
   await loadBets();
 };
-loadBets();
-showPage("overview");
+async function startApp() {
+  await loadBets();
+  showPage("overview");
+}
+
+startApp();
 </script>
 
 </body>
