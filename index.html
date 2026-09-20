@@ -737,7 +737,7 @@ count.textContent = bets.length;
 form.onsubmit = async e => {
   e.preventDefault();
 
-  const parts = game.value.trim().split(/\s+(?:vs\.?|@|-)?\s*/i);
+ const parts = game.value.trim().split(/\s+(?:vs\.?|@|-)\s+|\s+/i);
 
   if (parts.length !== 2) {
     alert("Zápas napiš například: CAR vs FLA");
