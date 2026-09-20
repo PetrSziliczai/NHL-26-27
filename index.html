@@ -614,15 +614,31 @@ button {
   <div class="card">
 
     <small>NHL DATA</small>
-    <h2>Co budeme měřit</h2>
+    <h2>Přehled týmů</h2>
 
-    <div class="chips" id="chips"></div>
+    <div style="overflow:auto">
 
-    <p>
-      Zde postupně přidáme automatická NHL data,
-      statistiky všech 32 týmů, formu, speciální týmy,
-      střely, góly, brankáře, xG a další data.
-    </p>
+      <table>
+
+        <thead>
+          <tr>
+            <th>TÝM</th>
+            <th>GP</th>
+            <th>W–L</th>
+            <th>GF</th>
+            <th>GA</th>
+            <th>SF</th>
+            <th>SA</th>
+            <th>PP %</th>
+            <th>PK %</th>
+          </tr>
+        </thead>
+
+        <tbody id="nhlTeamsTable"></tbody>
+
+      </table>
+
+    </div>
 
   </div>
 
@@ -936,11 +952,40 @@ async function loadBets() {
 /* ============================= */
 
 function render() {
-
   renderBets();
   renderKPIs();
   renderTeams();
+  renderNHLTeams();
+}
+  function renderNHLTeams() {
 
+  const table =
+    document.getElementById("nhlTeamsTable");
+
+  if (!table) {
+    return;
+  }
+
+  table.innerHTML =
+    teamData.map(team => `
+      <tr>
+        <td>
+          <b>${team[0]}</b>
+          <span style="color:#8491a1;">
+            ${team[1]}
+          </span>
+        </td>
+
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+    `).join("");
 }
 
 
