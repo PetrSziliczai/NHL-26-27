@@ -705,6 +705,33 @@ let nhlStandings = [];
 async function loadNHLData() {
   try {
     const response = await fetch(
+      "https://kectonvwgbsegkucxjei.supabase.co/functions/v1/sync-nhl-games",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${SUPABASE_KEY}`
+        },
+        body: JSON.stringify({})
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Nepodařilo se načíst NHL data");
+    }
+
+    const data = await response.json();
+
+    nhlStandings = data.standings || [];
+
+    renderNHLTeams();
+
+  } catch (error) {
+    console.error("Chyba při načítání NHL dat:", error);
+  }
+}
+  try {
+    const response = await fetch(
       "https://api-web.nhle.com/v1/standings/now"
     );
 
