@@ -435,6 +435,11 @@ const teamData = [
 const playerTeams = {
   "aho": "CAR"
 };
+    const teamAliases = {
+  "MON": "MTL"
+};
+
+const metrics = [
 const metrics = [
 "GF / GA",
 "Shots For / Against",
@@ -466,7 +471,7 @@ function renderTeams() {
         }
       }
 
-      return false;
+      return pickText.includes(t[0].toLowerCase());
     });
 
     const profit = teamBetsData.reduce(
@@ -732,7 +737,7 @@ count.textContent = bets.length;
 form.onsubmit = async e => {
   e.preventDefault();
 
-  const parts = game.value.split(/\s+(?:vs\.?|@|-)\s+/i);
+  const parts = game.value.trim().split(/\s+(?:vs\.?|@|-)?\s*/i);
 
   if (parts.length !== 2) {
     alert("Zápas napiš například: CAR vs FLA");
@@ -751,8 +756,8 @@ form.onsubmit = async e => {
       },
       body: JSON.stringify({
          game_date: gameDate.value,
-        away_team: parts[0].trim(),
-        home_team: parts[1].trim(),
+       away_team: teamAliases[parts[0].trim().toUpperCase()] || parts[0].trim().toUpperCase(),
+home_team: teamAliases[parts[1].trim().toUpperCase()] || parts[1].trim().toUpperCase(),
         market: market.value,
         pick: pick.value,
         odds: +odds.value,
