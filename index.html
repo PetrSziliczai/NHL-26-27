@@ -1026,34 +1026,8 @@ function render() {
     }).join("");
 }
 
-  const table =
-    document.getElementById("nhlTeamsTable");
+ 
 
-  if (!table) {
-    return;
-  }
-
-  table.innerHTML =
-    teamData.map(team => `
-      <tr>
-        <td>
-          <b>${team[0]}</b>
-          <span style="color:#8491a1;">
-            ${team[1]}
-          </span>
-        </td>
-
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
-      </tr>
-    `).join("");
-}
 
 
 function renderBets() {
