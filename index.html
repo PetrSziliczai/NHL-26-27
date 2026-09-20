@@ -617,7 +617,7 @@ function closeTeam() {
     behavior: "smooth"
   });
 }
-
+let bets = [];
 async function loadBets() {
   const response = await fetch(
     SUPABASE_URL + "/rest/v1/bets?select=*&order=created_at.desc",
