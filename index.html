@@ -444,11 +444,9 @@ button {
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-              <td>—</td>
-              <td>—</td>
-              <td>—</td>
+          <td id="teamGP">—</td>
+<td id="teamGF">—</td>
+<td id="teamGA">—</td>
               <td>—</td>
               <td>—</td>
               <td>—</td>
@@ -1271,105 +1269,83 @@ function renderTeams() {
 
 function openTeam(code) {
 
-  const team =
-    teamData.find(t =>
-      t[0] === code
-    );
+  const team = teamData.find(t => t[0] === code);
 
-  if (!team) {
-    return;
-  }
+  if (!team) return;
 
-  const teamBetsData =
-    bets.filter(b =>
-      b.home_team === code ||
-      b.away_team === code
-    );
+  // Zobrazí detail týmu
+  document.getElementById("teamDetail").style.display = "block";
+  document.getElementById("teamTitle").textContent =
+    `${code} – ${team[1]}`;
 
-  const settled =
-    teamBetsData.filter(
-      b =>
-        b.result === "WIN" ||
-        b.result === "LOSS"
-    );
+  // =========================
+  // NAŠE SÁZKY
+  // =========================
 
-  const wins =
-    settled.filter(
-      b => b.result === "WIN"
-    ).length;
+  const teamBetsData = bets.filter(b =>
+    b.home_team === code ||
+    b.away_team === code
+  );
 
-  const losses =
-    settled.filter(
-      b => b.result === "LOSS"
-    ).length;
+  const wins = teamBetsData.filter(b =>
+    b.result === "WIN"
+  ).length;
 
-  const totalStaked =
-    teamBetsData.reduce(
-      (sum, b) =>
-        sum + Number(b.stake || 0),
-      0
-    );
+  const losses = teamBetsData.filter(b =>
+    b.result === "LOSS"
+  ).length;
 
-  const settledStake =
-    settled.reduce(
-      (sum, b) =>
-        sum + Number(b.stake || 0),
-      0
-    );
+  const staked = teamBetsData.reduce(
+    (sum, b) => sum + Number(b.stake || 0),
+    0
+  );
 
-  const profit =
-    settled.reduce(
-      (sum, b) =>
-        sum + calculate(b).profit,
-      0
-    );
+  const profit = teamBetsData.reduce(
+    (sum, b) => sum + calculate(b).profit,
+    0
+  );
 
-  const teamROI =
-    settledStake
-      ? profit / settledStake * 100
+  const roi =
+    staked > 0
+      ? (profit / staked) * 100
       : 0;
 
-  document
-    .getElementById("teamTitle")
-    .textContent =
-      team[1] + " (" + code + ")";
+  document.getElementById("teamBets").textContent =
+    teamBetsData.length;
 
-  document
-    .getElementById("teamBets")
-    .textContent =
-      teamBetsData.length;
+  document.getElementById("teamWL").textContent =
+    `${wins}-${losses}`;
 
-  document
-    .getElementById("teamWL")
-    .textContent =
-      wins + "-" + losses;
+  document.getElementById("teamStaked").textContent =
+    `${staked.toFixed(0)} Kč`;
 
-  document
-    .getElementById("teamStaked")
-    .textContent =
-      totalStaked.toFixed(0) + " Kč";
+  document.getElementById("teamProfit").textContent =
+    `${profit.toFixed(0)} Kč`;
 
-  document
-    .getElementById("teamProfit")
-    .textContent =
-      profit.toFixed(0) + " Kč";
+  document.getElementById("teamROI").textContent =
+    `${roi.toFixed(1)} %`;
 
-  document
-    .getElementById("teamROI")
-    .textContent =
-      teamROI.toFixed(1) + " %";
+  // =========================
+  // NHL STATISTIKY
+  // =========================
 
-  const detail =
-    document.getElementById("teamDetail");
+  const stats = nhlStandings.find(
+    s => s.teamAbbrev?.default === code
+  );
 
-  detail.style.display = "block";
+  if (!stats) return;
 
-  detail.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  document.getElementById("teamGP").textContent =
+    stats.gamesPlayed ?? "—";
 
+  document.getElementById("teamGF").textContent =
+    stats.goalFor ?? "—";
+
+  document.getElementById("teamGA").textContent =
+    stats.goalAgainst ?? "—";
 }
+
+ 
 
 
 function closeTeam() {
