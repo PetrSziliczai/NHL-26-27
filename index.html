@@ -450,8 +450,8 @@ button {
               <td>—</td>
               <td>—</td>
               <td>—</td>
-              <td>—</td>
-              <td>—</td>
+             <td id="teamLast5">—</td>
+<td id="teamLast10">—</td>
             </tr>
           </tbody>
         </table>
@@ -699,7 +699,7 @@ const teamData = [
   ["WPG","Winnipeg Jets"]
 ];
 let nhlStandings = [];
-
+let nhlTeamForms = {};
 async function loadNHLData() {
   try {
     const response = await fetch(
@@ -721,7 +721,7 @@ async function loadNHLData() {
     const data = await response.json();
 
     nhlStandings = data.standings || [];
-
+nhlTeamForms = data.teamForms || {};
     renderNHLTeams();
 
   } catch (error) {
@@ -1343,6 +1343,13 @@ function openTeam(code) {
 
   document.getElementById("teamGA").textContent =
     stats.goalAgainst ?? "—";
+  const form = nhlTeamForms[code] || {};
+
+document.getElementById("teamLast5").textContent =
+  form.last5 || "—";
+
+document.getElementById("teamLast10").textContent =
+  form.last10 || "—";
 }
 
  
